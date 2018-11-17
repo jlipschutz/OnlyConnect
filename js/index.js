@@ -1,7 +1,12 @@
 var guess = document.getElementById("guess");
 var startButton = document.getElementById("start");
 var onlyConnect = document.getElementById("onlyConnect");
+var correctWordList = document.getElementById("correctWordList");
+var wrongWordList = document.getElementById("wrongWordList");
 var gameStarted = false;
+var randomWord = "";
+var correctGuessed = 0;
+var lives = 0;
 var champs = ["Aatrox", "Ahri", "Akali", "Alistar",
 "Amumu",
 "Anivia",
@@ -107,7 +112,7 @@ var champs = ["Aatrox", "Ahri", "Akali", "Alistar",
 "Swain",
 "Syndra",
 "Tahm Kench",
-"Tailyah",
+"Taliyah",
 "Talon",
 "Taric",
 "Teemo",
@@ -141,11 +146,13 @@ var champs = ["Aatrox", "Ahri", "Akali", "Alistar",
 "Zoe",
 "Zyra",
 ];
+
+//TODO : ADD MORE DIFFERENT CATEGORIES
 var vowels = ["a", "e", "i", "o", "u"];
 
 
 guess.addEventListener("keydown", function(e) {
-    if(e.keyCode == 13) {
+    if(e.keyCode == 13 && gameStarted) {
       guessEval(e);
     }
 });
@@ -153,11 +160,32 @@ guess.addEventListener("keydown", function(e) {
 startButton.addEventListener("click", startGame);
 
 function startGame() {
-  alert("started game");
-  var randomWord = champs[Math.floor(Math.random()*champs.length)];
+  //// TODO: CLEAR ALL EXISTING FIELDS
+  while(correctWordList.firstChild) {
+    correctWordList.removeChild(correctWordList.firstChild);
+  }
+  while(wrongWordList.firstChild) {
+    wrongWordList.removeChild(wrongWordList.firstChild);
+  }
+  gameStarted = true;
+  lives = 3;
+  correctGuessed = 0;
+  generateRandomWord();
+}
+
+function generateRandomWord() {
+  // TODO: ADD IMPLEMENTATION OF NO REPEAT WORDS
+  randomWord = champs[Math.floor(Math.random()*champs.length)];
+  var correctListItems = Array.from(correctWordList.getElementsByTagName("li"));
+  var wrongListItems = Array.from(wrongWordList.getElementsByTagName("li"));
+  if(correctListItems.includes(randomWord) || wrongListItems.includes(randomWord)) {
+    alert("Random word disregarded");
+    generateRandomWord();
+    return;
+  }
   var noVowels = "";
   for(let i = 0; i < randomWord.length; i++) {
-    if(!vowels.includes(randomWord.substring(i, i+1))) {
+    if(!vowels.includes(randomWord.toLowerCase().substring(i, i+1))) {
       noVowels += randomWord.substring(i, i+1);
     }
   }
@@ -165,5 +193,38 @@ function startGame() {
 }
 
 function guessEval(e) {
-  alert("hi");
+  var userGuess = guess.value;
+  event.currentTarget.value = "";
+  if(userGuess.toUpperCase().localeCompare(randomWord.toUpperCase()) == 0) {
+    addWord(true);
+    correctGuessed++;
+  } else {
+    addWord(false);
+    lives--;
+  }
+  if(lives <= 0) {
+    //Add function for losing
+    alert("You lose");
+    onlyConnect.innerHTML = "YOU LOSE";
+  } else {
+    if(correctGuessed < 10) {
+      generateRandomWord();
+    } else {
+      //Add function for winning
+      alert("You win!");
+      onlyConnect.innerHTML = "YOU WIN!";
+    }
+  }
+
+  function addWord(correct) {
+    var listItem = document.createElement("li");
+    listItem.appendChild(document.createTextNode(randomWord));
+    if(correct) {
+      correctWordList.appendChild(listItem);
+    } else {
+      wrongWordList.appendChild(listItem);
+    }
+
+  }
+
 }
