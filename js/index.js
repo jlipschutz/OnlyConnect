@@ -3,6 +3,7 @@ var startButton = document.getElementById("start");
 var onlyConnect = document.getElementById("onlyConnect");
 var correctWordList = document.getElementById("correctWordList");
 var wrongWordList = document.getElementById("wrongWordList");
+var progressBar = document.getElementById("currentProgress");
 var gameStarted = false;
 var randomWord = "";
 var correctGuessed = 0;
@@ -161,6 +162,8 @@ startButton.addEventListener("click", startGame);
 
 function startGame() {
   //// TODO: CLEAR ALL EXISTING FIELDS
+  progressBar.style.width = "0%";
+  progressBar.innerHTML = "0%";
   while(correctWordList.firstChild) {
     correctWordList.removeChild(correctWordList.firstChild);
   }
@@ -174,7 +177,7 @@ function startGame() {
 }
 
 function generateRandomWord() {
-  // TODO: ADD IMPLEMENTATION OF NO REPEAT WORDS
+
   randomWord = champs[Math.floor(Math.random()*champs.length)];
   var correctListItems = Array.from(correctWordList.getElementsByTagName("li"));
   var wrongListItems = Array.from(wrongWordList.getElementsByTagName("li"));
@@ -187,6 +190,9 @@ function generateRandomWord() {
   for(let i = 0; i < randomWord.length; i++) {
     if(!vowels.includes(randomWord.toLowerCase().substring(i, i+1))) {
       noVowels += randomWord.substring(i, i+1);
+      if(Math.floor(Math.random() * 2) == 0) {
+        noVowels += " ";
+      }
     }
   }
   onlyConnect.innerHTML = noVowels;
@@ -198,6 +204,7 @@ function guessEval(e) {
   if(userGuess.toUpperCase().localeCompare(randomWord.toUpperCase()) == 0) {
     addWord(true);
     correctGuessed++;
+    incrementProgress();
   } else {
     addWord(false);
     lives--;
@@ -211,7 +218,6 @@ function guessEval(e) {
       generateRandomWord();
     } else {
       //Add function for winning
-      alert("You win!");
       onlyConnect.innerHTML = "YOU WIN!";
     }
   }
@@ -225,6 +231,12 @@ function guessEval(e) {
       wrongWordList.appendChild(listItem);
     }
 
+  }
+
+  function incrementProgress() {
+    var percent = correctGuessed * 10 + "%";
+    progressBar.style.width = percent;
+    progressBar.innerHTML = percent;
   }
 
 }

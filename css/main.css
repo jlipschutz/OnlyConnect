@@ -33,3 +33,20 @@ h1 {
   float: left;
   padding-left: 30%;
 }
+
+#totalProgress {
+  width: 20%;
+  background-color: grey;
+  clear: both;
+  margin: auto;
+  text-align: left;
+}
+
+#currentProgress {
+  width: 0%;
+  height: 30px;
+  background-color: green;
+  float: none;
+  clear both;
+  text-align: left;
+}
