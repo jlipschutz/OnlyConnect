@@ -177,14 +177,20 @@ function startGame() {
 }
 
 function generateRandomWord() {
-
   randomWord = champs[Math.floor(Math.random()*champs.length)];
   var correctListItems = Array.from(correctWordList.getElementsByTagName("li"));
   var wrongListItems = Array.from(wrongWordList.getElementsByTagName("li"));
-  if(correctListItems.includes(randomWord) || wrongListItems.includes(randomWord)) {
-    alert("Random word disregarded");
-    generateRandomWord();
-    return;
+  for(var correctWord of correctListItems) {
+    if(correctWord.innerHTML === randomWord) {
+      generateRandomWord();
+      return;
+    }
+  }
+  for(var wrongWord of wrongListItems) {
+    if(wrongWord.innerHTML === randomWord) {
+      generateRandomWord();
+      return;
+    }
   }
   var noVowels = "";
   for(let i = 0; i < randomWord.length; i++) {
@@ -199,6 +205,7 @@ function generateRandomWord() {
 }
 
 function guessEval(e) {
+  // TODO: Create logic to stop guessing when game is won or lost
   var userGuess = guess.value;
   event.currentTarget.value = "";
   if(userGuess.toUpperCase().localeCompare(randomWord.toUpperCase()) == 0) {
@@ -212,12 +219,13 @@ function guessEval(e) {
   if(lives <= 0) {
     //Add function for losing
     alert("You lose");
+    //Add function to stop additional guessing
     onlyConnect.innerHTML = "YOU LOSE";
   } else {
     if(correctGuessed < 10) {
       generateRandomWord();
     } else {
-      //Add function for winning
+      //Add function to stop additional guessing
       onlyConnect.innerHTML = "YOU WIN!";
     }
   }
