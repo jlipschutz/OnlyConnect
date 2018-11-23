@@ -162,6 +162,7 @@ startButton.addEventListener("click", startGame);
 
 function startGame() {
   //// TODO: CLEAR ALL EXISTING FIELDS
+  guess.value = "";
   progressBar.style.width = "0%";
   progressBar.innerHTML = "0%";
   while(correctWordList.firstChild) {
@@ -220,12 +221,14 @@ function guessEval(e) {
     //Add function for losing
     alert("You lose");
     //Add function to stop additional guessing
+    gameStarted = false;
     onlyConnect.innerHTML = "YOU LOSE";
   } else {
     if(correctGuessed < 10) {
       generateRandomWord();
     } else {
       //Add function to stop additional guessing
+      gameStarted = false;
       onlyConnect.innerHTML = "YOU WIN!";
     }
   }
