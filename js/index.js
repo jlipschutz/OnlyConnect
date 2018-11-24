@@ -4,6 +4,9 @@ var onlyConnect = document.getElementById("onlyConnect");
 var correctWordList = document.getElementById("correctWordList");
 var wrongWordList = document.getElementById("wrongWordList");
 var progressBar = document.getElementById("currentProgress");
+var life1 = document.getElementsByClassName("life1");
+var life2 = document.getElementsByClassName("life2");
+var life3 = document.getElementsByClassName("life3");
 var gameStarted = false;
 var randomWord = "";
 var correctGuessed = 0;
@@ -162,6 +165,9 @@ startButton.addEventListener("click", startGame);
 
 function startGame() {
   //// TODO: CLEAR ALL EXISTING FIELDS
+  life3[0].style.visibility = "visible";
+  life2[0].style.visibility = "visible";
+  life1[0].style.visibility = "visible";
   guess.value = "";
   progressBar.style.width = "0%";
   progressBar.innerHTML = "0%";
@@ -216,10 +222,17 @@ function guessEval(e) {
   } else {
     addWord(false);
     lives--;
+    if(lives == 2) {
+      life3[0].style.visibility = "hidden";
+    } else if(lives == 1) {
+      life2[0].style.visibility = "hidden";
+    } else {
+      life1[0].style.visibility = "hidden";
+    }
+
   }
   if(lives <= 0) {
     //Add function for losing
-    alert("You lose");
     //Add function to stop additional guessing
     gameStarted = false;
     onlyConnect.innerHTML = "YOU LOSE";
