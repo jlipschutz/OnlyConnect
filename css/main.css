@@ -63,3 +63,8 @@ h1 {
   clear both;
   text-align: left;
 }
+
+.timer {
+  text-align: center;
+  font-family: times;
+}

@@ -7,151 +7,36 @@ var progressBar = document.getElementById("currentProgress");
 var life1 = document.getElementsByClassName("life1");
 var life2 = document.getElementsByClassName("life2");
 var life3 = document.getElementsByClassName("life3");
+var timer = document.getElementById("time");
 var gameStarted = false;
 var randomWord = "";
 var correctGuessed = 0;
 var lives = 0;
-var champs = ["Aatrox", "Ahri", "Akali", "Alistar",
-"Amumu",
-"Anivia",
-"Annie",
-"Ashe",
-"Aurelion Sol",
-"Azir",
-"Bard",
-"Blitzcrank",
-"Brand",
-"Braum",
-"Caitlyn",
-"Camille",
-"Cassiopeia",
-"Cho'Gath",
-"Corki",
-"Darius",
-"Diana",
-"Dr. Mundo",
-"Draven",
-"Ekko",
-"Elise",
-"Evelynn",
-"Ezreal",
-"Fiddlesticks",
-"Fiora",
-"Fizz",
-"Galio",
-"Gangplank",
-"Garen",
-"Gnar",
-"Gragas",
-"Graves",
-"Hecarim",
-"Heimerdinger",
-"Illaoi",
-"Irelia",
-"Ivern",
-"Janna",
-"Jarvan IV",
-"Jax",
-"Jayce",
-"Jhin",
-"Jinx",
-"Kai'sa",
-"Kalista",
-"Karma",
-"Karthus",
-"Kassadin",
-"Katarina",
-"Kayle",
-"Kayn",
-"Kennen",
-"Kha'Zix",
-"Kindred",
-"Kled",
-"Kog'Maw",
-"LeBlanc",
-"Lee Sin",
-"Leona",
-"Lissandra",
-"Lucian",
-"Lulu",
-"Lux",
-"Malphite",
-"Malzahar",
-"Maokai",
-"Master Yi",
-"Miss Fortune",
-"Mordekaiser",
-"Morgana",
-"Nami",
-"Nasus",
-"Nautilus",
-"Nidalee",
-"Nocturne",
-"Nunu",
-"Olaf",
-"Orianna",
-"Ornn",
-"Pantheon",
-"Poppy",
-"Pyke",
-"Quinn",
-"Rakan",
-"Rammus",
-"Rek'Sai",
-"Renekton",
-"Rengar",
-"Riven",
-"Rumble",
-"Ryze",
-"Sejuani",
-"Shaco",
-"Shen",
-"Shyvana",
-"Singed",
-"Sion",
-"Sivir",
-"Skarner",
-"Sona",
-"Soraka",
-"Swain",
-"Syndra",
-"Tahm Kench",
-"Taliyah",
-"Talon",
-"Taric",
-"Teemo",
-"Thresh",
-"Tristana",
-"Trundle",
-"Tryndamere",
-"Twisted Fate",
-"Twitch",
-"Udyr",
-"Urgot",
-"Varus",
-"Vayne",
-"Veigar",
-"Vel'Koz",
-"Vi",
-"Viktor",
-"Vladimir",
-"Volibear",
-"Warwick",
-"Wukong",
-"Xayah",
-"Xerath",
-"Xin Zhao",
-"Yasuo",
-"Yorick",
-"Zac",
-"Zed",
-"Ziggs",
-"Zilean",
-"Zoe",
-"Zyra",
+var startTime = Date.now();
+var champs = ["Aatrox", "Ahri", "Akali", "Alistar", "Amumu", "Anivia",
+"Annie", "Ashe", "Aurelion Sol", "Azir", "Bard", "Blitzcrank", "Brand",
+"Braum", "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki", "Darius",
+"Diana", "Dr. Mundo", "Draven", "Ekko", "Elise", "Evelynn", "Ezreal",
+"Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar",
+"Gragas", "Graves", "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern",
+"Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx", "Kai'sa", "Kalista",
+"Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen",
+"Kha'Zix", "Kindred", "Kled", "Kog'Maw", "LeBlanc", "Lee Sin", "Leona",
+"Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai",
+"Master Yi", "Miss Fortune", "Mordekaiser", "Morgana", "Nami", "Nasus",
+"Nautilus", "Neeko", "Nidalee", "Nocturne", "Nunu", "Olaf", "Orianna", "Ornn",
+"Pantheon", "Poppy", "Pyke", "Quinn", "Rakan", "Rammus", "Rek'Sai", "Renekton",
+"Rengar", "Riven", "Rumble", "Ryze", "Sejuani", "Shaco", "Shen", "Shyvana",
+"Singed", "Sion", "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Syndra",
+"Tahm Kench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana",
+"Trundle", "Tryndamere", "Twisted Fate", "Twitch", "Udyr", "Urgot", "Varus",
+"Vayne", "Veigar", "Vel'Koz", "Vi", "Viktor", "Vladimir", "Volibear", "Warwick",
+"Wukong", "Xayah", "Xerath", "Xin Zhao", "Yasuo", "Yorick", "Zac", "Zed",
+"Ziggs", "Zilean", "Zoe", "Zyra",
 ];
 
 //TODO : ADD MORE DIFFERENT CATEGORIES
+
 var vowels = ["a", "e", "i", "o", "u"];
 
 
@@ -180,8 +65,18 @@ function startGame() {
   gameStarted = true;
   lives = 3;
   correctGuessed = 0;
+  startTime = Date.now();
+  var startTimerID = setInterval(startTimer, 100);
   generateRandomWord();
 }
+
+function startTimer() {
+  if(gameStarted) {
+    var delta = Date.now() - startTime;
+    timer.innerHTML = Math.floor(delta / 1000) + "s";
+  }
+}
+
 
 function generateRandomWord() {
   randomWord = champs[Math.floor(Math.random()*champs.length)];
@@ -232,15 +127,12 @@ function guessEval(e) {
 
   }
   if(lives <= 0) {
-    //Add function for losing
-    //Add function to stop additional guessing
     gameStarted = false;
     onlyConnect.innerHTML = "YOU LOSE";
   } else {
     if(correctGuessed < 10) {
       generateRandomWord();
     } else {
-      //Add function to stop additional guessing
       gameStarted = false;
       onlyConnect.innerHTML = "YOU WIN!";
     }
