@@ -8,11 +8,16 @@ var life1 = document.getElementsByClassName("life1");
 var life2 = document.getElementsByClassName("life2");
 var life3 = document.getElementsByClassName("life3");
 var timer = document.getElementById("time");
+var champsCheckbox = document.getElementById("champs");
+var itemsCheckbox = document.getElementById("items");
+var placesCheckbox = document.getElementById("places");
 var gameStarted = false;
 var randomWord = "";
 var correctGuessed = 0;
 var lives = 0;
 var startTime = Date.now();
+var randomWordArray = [];
+
 var champs = ["Aatrox", "Ahri", "Akali", "Alistar", "Amumu", "Anivia",
 "Annie", "Ashe", "Aurelion Sol", "Azir", "Bard", "Blitzcrank", "Brand",
 "Braum", "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki", "Darius",
@@ -35,6 +40,19 @@ var champs = ["Aatrox", "Ahri", "Akali", "Alistar", "Amumu", "Anivia",
 "Ziggs", "Zilean", "Zoe", "Zyra",
 ];
 
+var items = ["Adaptive Helm", "Ardent Censer", "Banshee's Veil", "B. F. Sword",
+"Blade of the Ruined King", "Blasting Wand", "Control Ward", "Corrupting Potion",
+"Dead Man's Plate", "Essence Reaver", "Frozen Mallet", "Guardian Angel",
+"Hextech Gunblade", "Iceborn Gauntlet", "Infinity Edge", "Lich Bane",
+"Locket of the Iron Solari", "Luden's Echo", "Mejai's Soulstealer",
+"Needlessly Large Rod", "Ohmwrecker", "Phantom Dancer", "Quicksilver Sash",
+"Rabadon's Deathcap", "Redemption", "Rod of Ages", "Spirit Visage",
+"Stormrazor", "Sunfire Cape", "Tear of the Goddess", "The Black Cleaver",
+"Thornmail", "Zhonya's Hourglass"];
+
+var places = ["Bandle City", "Bilgewater", "Demacia", "Freljord", "Ionia",
+"Noxus", "Piltover", "Zaun", "Mount Targon", "Shurima", "The Void"];
+
 //TODO : ADD MORE DIFFERENT CATEGORIES
 
 var vowels = ["a", "e", "i", "o", "u"];
@@ -50,6 +68,16 @@ startButton.addEventListener("click", startGame);
 
 function startGame() {
   //// TODO: CLEAR ALL EXISTING FIELDS
+  randomWordArray = [];
+  if(champsCheckbox.checked == true) {
+    randomWordArray.push.apply(randomWordArray, champs);
+  }
+  if(itemsCheckbox.checked == true) {
+    randomWordArray.push.apply(randomWordArray, items);
+  }
+  if(placesCheckbox.checked == true) {
+    randomWordArray.push.apply(randomWordArray, places);
+  }
   life3[0].style.visibility = "visible";
   life2[0].style.visibility = "visible";
   life1[0].style.visibility = "visible";
@@ -79,7 +107,7 @@ function startTimer() {
 
 
 function generateRandomWord() {
-  randomWord = champs[Math.floor(Math.random()*champs.length)];
+  randomWord = randomWordArray[Math.floor(Math.random()*randomWordArray.length)];
   var correctListItems = Array.from(correctWordList.getElementsByTagName("li"));
   var wrongListItems = Array.from(wrongWordList.getElementsByTagName("li"));
   for(var correctWord of correctListItems) {

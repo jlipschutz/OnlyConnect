@@ -12,7 +12,7 @@
       </div>
       <p id = "onlyConnect" class="onlyConnect"></p>
       <p class="userInput">
-        <input id ="guess">
+        <input id ="guess" spellcheck="false">
       </p>
       <div class = "correctWordBank">
         <p> Correct Words Guessed </p>
@@ -32,6 +32,14 @@
       </div>
       <div class = "timer">
         <p id = "time"></p>
+      </div>
+      <div class = "categories">
+        <input type="checkbox" id="champs" value="champs">
+        <label for="champs">Champions</label> <br>
+        <input type="checkbox" id="items" value="items">
+        <label for="items">Items</label> <br>
+        <input type="checkbox" id="places" value="places">
+        <label for="places">Places</label>
       </div>
       <script src="js/index.js"></script>
     </body>
