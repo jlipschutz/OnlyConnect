@@ -11,6 +11,7 @@ var timer = document.getElementById("time");
 var champsCheckbox = document.getElementById("champs");
 var itemsCheckbox = document.getElementById("items");
 var placesCheckbox = document.getElementById("places");
+var teamsCheckbox = document.getElementById("teams");
 var gameStarted = false;
 var randomWord = "";
 var correctGuessed = 0;
@@ -53,6 +54,11 @@ var items = ["Adaptive Helm", "Ardent Censer", "Banshee's Veil", "B. F. Sword",
 var places = ["Bandle City", "Bilgewater", "Demacia", "Freljord", "Ionia",
 "Noxus", "Piltover", "Zaun", "Mount Targon", "Shurima", "The Void"];
 
+var teams = ["Team SoloMid", "100 Thieves", "Cloud9", "Fnatic", "Misfits",
+"Edward Gaming", "Gambit", "Echo Fox", "Clutch Gaming", "FlyQuest",
+"Team Liquid", "Optic Gaming", "Counter Logic Gaming", "Splyce",
+"Afreeca Freecs", "kt Rolster", "Invictus Gaming"];
+
 //TODO : ADD MORE DIFFERENT CATEGORIES
 
 var vowels = ["a", "e", "i", "o", "u"];
@@ -77,6 +83,9 @@ function startGame() {
   }
   if(placesCheckbox.checked == true) {
     randomWordArray.push.apply(randomWordArray, places);
+  }
+  if(teamsCheckbox.checked == true) {
+    randomWordArray.push.apply(randomWordArray, teams);
   }
   life3[0].style.visibility = "visible";
   life2[0].style.visibility = "visible";
